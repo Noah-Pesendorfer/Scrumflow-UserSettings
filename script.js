@@ -1,6 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-import { getFirestore, collection, getDoc, getDocs, addDoc, deleteDoc, updateDoc, doc } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
-import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, reauthenticateWithCredential, EmailAuthProvider } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+import { getAuth, onAuthStateChanged, sendPasswordResetEmail, updatePassword, deleteUser, reauthenticateWithCredential } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
+
 const firebaseConfig = {
     apiKey: "AIzaSyDZJTH0Znyi13etPM6Ag5M-lQ_WeqXOIsU",
     authDomain: "scrumflow-6e479.firebaseapp.com",
@@ -13,71 +14,55 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-const auth = getAuth(app);
+const auth = getAuth();
 
-// Authentifizierungsstatus beibehalten
 onAuthStateChanged(auth, (user) => {
     if (user) {
-      console.log("User is signed in with UID:", user.uid);
+        loadUserData();
     } else {
-      console.log("No user is signed in.");
+        console.log("No user is signed in.");
     }
-}); 
-    
-document.getElementById('save-password-btn').addEventListener('click', () => {
-    const currentPassword = document.getElementById('current-password').value;
-    const newPassword = document.getElementById('new-password').value;
+});
 
-    // Authenticate user
+function loadUserData() {
     const user = auth.currentUser;
-    const credentials = EmailAuthProvider.credential(user.email, currentPassword);
+    document.querySelector('.user-email').innerHTML = user.email;
+}
 
-    reauthenticateWithCredential(user, credentials)
+document.querySelector('.delete-account').addEventListener('click', () => {
+    if (confirm('Are you sure you want to delete your account?')) {
+        const user = auth.currentUser;
+        deleteUser(user)
+            .then(() => {
+                window.location.href = "https://thinkwisenotes.webflow.io/"
+            })
+            .catch((error) => {
+                alert('It\'s been too long since your last login. Due to safety reasons you have to logout and login again.')
+            });
+    }
+});
+
+document.querySelector('.save-password').addEventListener('click', () => {
+    const user = auth.currentUser;
+    const newPassword = document.querySelector('#new-password').value;
+    updatePassword(user, newPassword)
         .then(() => {
-            // Passwords match, update password
-            if (user.providerData.some(provider => provider.providerId === 'password')) {
-                user.updatePassword(newPassword)
-                    .then(() => {
-                        alert('Password updated successfully!');
-                    })
-                    .catch(error => {
-                        console.error(error);
-                        alert('Failed to update password. Please try again later.');
-                    });
-            } else {
-                alert('User is not authenticated with an email and password provider.');
-            }
+            console.log("Password change successful")
         })
-        .catch(error => {
+        .catch((error) => {
             console.error(error);
-            alert('Current password is incorrect. Please try again.');
+            alert('Failed to update password. Please try again later.');
         });
 });
 
-document.getElementById('reset-password-link').addEventListener('click', () => {
-    // Implement password reset functionality here
-    // This could redirect the user to a password reset page
-    // Or trigger the Firebase password reset email
-    // Example: window.location.href = 'reset_password.html';
-    alert('Implement password reset functionality here');
-});
-
-document.getElementById('delete-account-btn').addEventListener('click', () => {
-    // Delete account from Realtime Database
+document.querySelector('.reset-password').addEventListener('click', () => {
     const user = auth.currentUser;
-    database.ref('users/' + user.uid).remove()
+    sendPasswordResetEmail(auth, user.email)
         .then(() => {
-            // Sign out and redirect user
-            auth.signOut().then(() => {
-                // Sign-out successful.
-                window.location.href = 'goodbye.html';
-            }).catch((error) => {
-                // An error happened.
-                console.error(error);
-            });
+            alert("An Email has been sent to: " + user.email);
         })
-        .catch(error => {
+        .catch((error) => {
             console.error(error);
-            alert('Failed to delete account. Please try again later.');
+            alert('Failed to send password reset email. Please try again later.');
         });
 });
