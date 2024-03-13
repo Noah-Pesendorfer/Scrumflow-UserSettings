@@ -35,14 +35,18 @@ document.getElementById('save-password-btn').addEventListener('click', () => {
     reauthenticateWithCredential(user, credentials)
         .then(() => {
             // Passwords match, update password
-            user.updatePassword(newPassword)
-                .then(() => {
-                    alert('Password updated successfully!');
-                })
-                .catch(error => {
-                    console.error(error);
-                    alert('Failed to update password. Please try again later.');
-                });
+            if (user.providerData.some(provider => provider.providerId === 'password')) {
+                user.updatePassword(newPassword)
+                    .then(() => {
+                        alert('Password updated successfully!');
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        alert('Failed to update password. Please try again later.');
+                    });
+            } else {
+                alert('User is not authenticated with an email and password provider.');
+            }
         })
         .catch(error => {
             console.error(error);
