@@ -29,16 +29,15 @@ function loadUserData() {
     document.querySelector('.user-email').innerHTML = user.email;
 }
 
-document.querySelector('#email').innerHTML = auth.currentUser.email;
 document.querySelector('#delete-account-btn').addEventListener('click', () => {
     if (confirm('Are you sure you want to delete your account?')) {
         const user = auth.currentUser;
         deleteUser(user)
             .then(() => {
-                window.location.href = "https://thinkwisenotes.webflow.io/"
+                window.location.href = "https://thinkwisenotes.webflow.io/";
             })
             .catch((error) => {
-                alert('It\'s been too long since your last login. Due to safety reasons you have to logout and login again.')
+                alert('It\'s been too long since your last login. Due to safety reasons you have to logout and login again.');
             });
     }
 });
@@ -48,7 +47,7 @@ document.querySelector('#save-password-btn').addEventListener('click', () => {
     const newPassword = document.querySelector('#new-password').value;
     updatePassword(user, newPassword)
         .then(() => {
-            console.log("Password change successful")
+            console.log("Password change successful");
         })
         .catch((error) => {
             console.error(error);
