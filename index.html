@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,13 +11,8 @@
         body {
             font-family: 'Open Sans', sans-serif;
         }
-
-        .line {
-            border-bottom: 1px solid #ccc;
-        }
     </style>
 </head>
-
 <body class="bg-gray-100">
     <div class="max-w-4xl mx-auto py-12">
         <div class="bg-white p-8 shadow-sm rounded-lg">
@@ -26,17 +20,18 @@
             <p class="text-gray-600 mb-4">Configure your user settings.</p>
 
             <div class="mb-6">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
-                    <strong>Email Address</strong>
-                </label>
-                <p class="text-gray-600 text-xs mt-2">Your current email address is <strong>wurfingerbenjamin@gmail.com</strong></p>
+                <h2 class="block text-gray-700 text-sm font-bold mb-2" for="email">
+                    Email Address
+                </h2>
+                <p class="text-gray-600 text-xs mt-2">Your current email address is <h3><span class="user-email">wurfingerbenjamin@gmail.com</span></h3></p>
                 <p class="text-gray-600 text-xs">You are not able to change the user's email.</p>
-                <p class="text-gray-600 text-xs">If there is a certain reason to change the email, please contact us: <strong>thinkwise.htlwels@gmail.com</strong></p>
+                <p class="text-gray-600 text-xs">If there is a certain reason to change the email, please contact us: thinkwise.htlwels@gmail.com</p>
             </div>
 
+            <div class="border-t border-gray-200 mt-6 pt-4">
             <div class="mb-6">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
-                    <strong>Password</strong>
+                    Password
                 </label>
                 <div class="flex gap-4">
                     <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" id="current-password" type="password" placeholder="••••••••">
@@ -44,12 +39,11 @@
                 </div>
                 <a href="#" id="reset-password-link" class="text-indigo-600 text-xs mt-2 inline-block">Can't remember your current password? Reset password</a>
             </div>
+            </div>
 
             <button id="save-password-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
                 Save Password
             </button>
-
-            <div class="line mt-6"></div>
 
             <div class="border-t border-gray-200 mt-6 pt-4">
                 <h2 class="text-xl mb-2 font-semibold text-red-600">Delete Account</h2>
