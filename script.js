@@ -29,7 +29,7 @@ function loadUserData() {
     document.querySelector('.user-email').innerHTML = user.email;
 }
 
-document.querySelector('#email').innerHTML = user.email;
+document.querySelector('#email').innerHTML = auth.currentUser.email;
 document.querySelector('#delete-account-btn').addEventListener('click', () => {
     if (confirm('Are you sure you want to delete your account?')) {
         const user = auth.currentUser;
