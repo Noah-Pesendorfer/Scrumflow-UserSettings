@@ -29,7 +29,8 @@ function loadUserData() {
     document.querySelector('.user-email').innerHTML = user.email;
 }
 
-document.querySelector('.delete-account').addEventListener('click', () => {
+document.querySelector('#email').innerHTML = user.email;
+document.querySelector('#delete-account-btn').addEventListener('click', () => {
     if (confirm('Are you sure you want to delete your account?')) {
         const user = auth.currentUser;
         deleteUser(user)
@@ -42,7 +43,7 @@ document.querySelector('.delete-account').addEventListener('click', () => {
     }
 });
 
-document.querySelector('.save-password').addEventListener('click', () => {
+document.querySelector('#save-password-btn').addEventListener('click', () => {
     const user = auth.currentUser;
     const newPassword = document.querySelector('#new-password').value;
     updatePassword(user, newPassword)
@@ -55,7 +56,7 @@ document.querySelector('.save-password').addEventListener('click', () => {
         });
 });
 
-document.querySelector('.reset-password').addEventListener('click', () => {
+document.querySelector('#reset-password-link').addEventListener('click', () => {
     const user = auth.currentUser;
     sendPasswordResetEmail(auth, user.email)
         .then(() => {
